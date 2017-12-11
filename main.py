@@ -4,7 +4,7 @@ if stats:                   #Si existex fitxer de stats
     partWin=stats[0]
     partLost=stats[1]
     partTot=stats[2]
-else:                       #Si no s'inicien les variables a 0 per evitar errors en tems d'execució
+else:                       #Si no s'inicien les variables a 0 per evitar errors en tems d'execucio
     partWin=0
     partLost=0
     partTot=0

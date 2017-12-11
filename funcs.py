@@ -243,7 +243,7 @@ def saveStats(win, lost, total):
 @author Vesperon51"""
 def loadStats():
     my_File = Path("./stats.txt")                   #Ruta del fitxer, per determinar si existeix.
-    if my_File.is_file():                           #Si aquesta comprovacio no existeix el programa falla en execució perque intenta carregar i treballar amb un fitxer que no existeix
+    if my_File.is_file():                           #Si aquesta comprovacio no existeix el programa falla en execucio perque intenta carregar i treballar amb un fitxer que no existeix
         print("Carregat correctament el fitxer d'estadistiques")
         myFile=open('stats.txt', 'r')
         stats=myFile.read().split(";")
