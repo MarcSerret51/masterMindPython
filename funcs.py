@@ -1,4 +1,5 @@
 import random
+import glob, os
 import time
 from pathlib import Path
 """Mostra el menu principal i recull l'opcio de l'usuari
@@ -11,7 +12,9 @@ def menu():
     print("1. Jugar partida")
     print("2. Historic de partides")
     print("3. Establir dificultat")
-    print("4. Sortir")
+    print("4. Carregar fitxer de configuracio")
+    print("5. Guardar configuracio actual")
+    print("6. Guardar estadistiques i sortir")
     option = input("Selecciona l'opcio: ")
     return option
 
@@ -250,4 +253,70 @@ def loadStats():
         myFile.close
         return stats
     else:
-        print("No hi ha cap fitxer d'estadistiques")    
+        print("No hi ha cap fitxer d'estadistiques")
+
+
+"""Carrega les settings d'un fitxer. L'usuari decideix quin fitxer vol
+@param cfgFile. L'arxiu de que vol obrir
+@return settings. Llista amb la configuracio
+@since 11/12/2017
+@version 1.2
+@author Vesperon51"""
+def loadSettings(cfgFile):
+    option=0
+    pth="./configFiles/"+cfgFile+".txt"             #Genero la ruta al ficher. Directori actual/directori"configFiles"/L'arxiu que l'usuari demana + l'extensio txt
+    my_File = Path(pth)                             #Ruta del fitxer, per determinar si existeix.
+    if my_File.is_file():                           #Si aquesta comprovacio no existeix el programa falla en execucio perque intenta carregar i treballar amb un fitxer que no existeix
+        print("Carregat correctament el fitxer de configuracio "+cfgFile)
+        myFile=open(pth, 'r')                       #Obro l'arxiu amb la ruta genera previament emmagatzenada a la variable pth en mode lectura
+        settings=myFile.read().split(";")
+        myFile.close
+        print ("Mida del codi: "+settings[0])       #Mostro la configuracio
+        print ("Intents disponibles "+settings[1])
+        if confirm():
+            return settings
+        else:
+            print("No es carregara cap configuracio")
+    else:
+        print("No hi ha cap fitxer de configuracio")#Si el fitxer no existeix
+
+"""Llista el directori de configuracio
+@since 11/12/2017
+@version 1.0
+@author Vesperon51"""
+def listDir():
+    files = os.listdir('./configFiles')
+    print (files)
+
+"""Espera confirmacio
+@return True si vol el fitxer
+@since 11/12/2017
+@version 1.0
+@author Vesperon51"""
+def confirm():
+    option = input ("Estas segur que vols carregar aquesta configuracio Si=1 No=0: ")
+    if option=="1":                            
+        return True
+    else:
+        return False
+
+"""Guarda les settings a un fitxer. L'usuari decideix quin nom te el fitxer
+@param settings. Llista amb la configuracio
+@param cfgFile. L'arxiu de que vol obrir
+@return True. Si s'ha guardat correctament. Fals si no
+@since 11/12/2017
+@version 1.0
+@author Vesperon51"""
+def generarConfig(settings, cfgFile):
+    option=0
+    pth="./configFiles/"+cfgFile+".txt"             #Genero la ruta al ficher. Directori actual/directori"configFiles"/L'arxiu que l'usuari demana + l'extensio txt
+    my_File = Path(pth)                             #Ruta del fitxer, per determinar si existeix.
+    if my_File.is_file():                           #Si aquesta comprovacio no existeix el programa falla en execucio perque intenta carregar i treballar amb un fitxer que no existeix
+        return False
+    else:
+        myFile=open(pth, 'w')
+        cadena=(str(settings[0])+";"+str(settings[1]))
+        myFile.write(cadena)
+        myFile.close
+        return True
+
